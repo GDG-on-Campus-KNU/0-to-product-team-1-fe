@@ -1,26 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap");
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 @theme inline {
+  --font-sans: "Gowun Batang", serif;
+  --font-gowun: "Gowun Batang", serif;
+  --font-mono: monospace;
+
+  --text-head-01: 32px;
+  --text-head-01--font-weight: 700;
+  --text-head-02: 28px;
+  --text-head-02--font-weight: 700;
+  --text-head-03: 24px;
+  --text-head-03--font-weight: 700;
+
+  --text-body-01: 20px;
+  --text-body-01--font-weight: 700;
+  --text-body-02: 20px;
+  --text-body-02--font-weight: 400;
+  --text-body-03: 18px;
+  --text-body-03--font-weight: 700;
+  --text-body-04: 18px;
+  --text-body-04--font-weight: 400;
+
+  --text-label-01: 16px;
+  --text-label-01--font-weight: 700;
+  --text-label-02: 16px;
+  --text-label-02--font-weight: 400;
+  --text-label-03: 14px;
+  --text-label-03--font-weight: 700;
+  --text-label-04: 14px;
+  --text-label-04--font-weight: 400;
+  --text-label-05: 12px;
+  --text-label-05--font-weight: 400;
+  --text-label-06: 12px;
+  --text-label-06--font-weight: 400;
+
+  --color-blue-100: #ebf3ff;
+  --color-blue-200: #dae4f4;
+  --color-blue-300: #cad5e5;
+  --color-blue-400: #b5c0d0;
+  --color-blue-500: #a6aeba;
+  --color-blue-600: #9097a3;
+
+  --color-green-100: #eff5ec;
+  --color-green-200: #e8ede6;
+  --color-green-300: #dbe1d9;
+  --color-green-400: #ccd3ca;
+  --color-green-500: #bfc5bd;
+  --color-green-600: #acb1aa;
+
+  --color-beige-100: #fff9f4;
+  --color-beige-200: #fff6ef;
+  --color-beige-300: #fff3e9;
+  --color-beige-400: #f5e8dd;
+  --color-beige-500: #eaded5;
+  --color-beige-600: #d7cbc3;
+
+  --color-pink-100: #fff5f8;
+  --color-pink-200: #ffecf1;
+  --color-pink-300: #fce0e6;
+  --color-pink-400: #eed3d9;
+  --color-pink-500: #dfc6cc;
+  --color-pink-600: #ceb7bc;
+
+  --color-gray-100: #f2f1f4;
+  --color-gray-200: #e3e1e7;
+  --color-gray-300: #aba9b3;
+  --color-gray-400: #807e87;
+  --color-gray-500: #66636c;
+  --color-gray-600: #46434e;
+  --color-gray-700: #37353e;
+
+  --color-black: #222222;
+  --color-white: #ffffff;
+
+  --color-background-light: var(--background);
+  --color-background-dark: var(--muted);
+  --color-text: var(--foreground);
+
   --color-background: var(--background);
+  --color-muted: var(--muted);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ring: var(--ring);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-border-disabled: var(--border-disabled);
+  --color-input: var(--input);
+  --color-destructive: var(--destructive);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-sm: calc(var(--radius) * 0.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --background: #fefefe;
+  --muted: #fafafa;
+  --foreground: #222222;
+
+  --border: #cfced2;
+  --border-strong: #aba9b3;
+  --border-disabled: #e6e5e8;
+
+  --input: #ccd3ca;
+  --ring: #acb1aa;
+  --destructive: #ef4444;
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
 }
