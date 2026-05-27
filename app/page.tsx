@@ -43,10 +43,8 @@ export default function Landing() {
         </div>
 
         <div className="flex flex-col items-center gap-3 max-w-[306px] w-full">
-          <h1 className="text-[40px] font-semibold leading-[48px] tracking-[-1px] text-gray-700 text-center">
-            Step Back
-          </h1>
-          <p className="text-[18px] font-medium leading-[29px] text-gray-600 text-center px-4">
+          <h1 className="text-head-01">Step Back</h1>
+          <p className="text-body-04 text-center px-4">
             내 사고와 감정에서 한 발짝 떨어져 패턴을 알아차리는 메타인지 도구
           </p>
         </div>
@@ -56,7 +54,7 @@ export default function Landing() {
       <div className="relative z-10 flex flex-col gap-3 px-6 pt-6 pb-6">
         <Button
           variant="login"
-          size="auth"
+          size="xlg"
           onClick={() => {
             router.push("/login");
           }}
@@ -66,7 +64,7 @@ export default function Landing() {
         </Button>
         <Button
           variant="register"
-          size="auth"
+          size="xlg"
           onClick={() => {
             router.push("/register");
           }}
