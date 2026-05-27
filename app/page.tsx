@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { contact } from "@/utils/contact";
 
 export default function Landing() {
   const router = useRouter();
@@ -74,14 +73,6 @@ export default function Landing() {
         >
           계정 만들기
         </Button>
-        <div className="flex justify-center pt-3">
-          <a
-            href={`mailto:${contact.email}`}
-            className="text-xs font-medium leading-4 tracking-[0.6px] text-gray-400 no-underline"
-          >
-            로그인에 문제가 있나요? <span className="underline">문의하기</span>
-          </a>
-        </div>
       </div>
     </div>
   );
