@@ -76,10 +76,6 @@
   --color-black: #222222;
   --color-white: #ffffff;
 
-  /* Stone scale (warm neutral) */
-  --color-stone-100: #f6f3f1;
-  --color-stone-200: #eae8e6;
-
   --color-background-light: var(--background);
   --color-background-dark: var(--muted);
   --color-text: var(--foreground);

@@ -24,7 +24,7 @@ export default function Landing() {
       {/* 메인 콘텐츠 */}
       <div className="flex-1 flex flex-col justify-center items-center px-6 py-16 relative z-10">
         <div className="relative flex justify-center items-center w-80 h-80 mb-12">
-          <div className="flex items-center justify-center w-64 h-64 rounded-full bg-gradient-to-br from-stone-200 to-stone-100 border border-[rgba(196,199,194,0.3)] shadow-xs">
+          <div className="flex items-center justify-center w-64 h-64 rounded-full bg-gradient-to-br from-gray-200 to-gray-100 border shadow-xs">
             <Image
               width={74}
               height={73}
