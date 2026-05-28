@@ -10,13 +10,14 @@ import {
   LockKeyhole,
   User,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/ui/InputField";
 
+import { useRegister } from "../hooks/useRegister";
+
 export default function RegisterForm() {
-  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -25,18 +26,14 @@ export default function RegisterForm() {
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
 
+  const registerMutation = useRegister();
+
   const onRegisterButtonClick = () => {
     if (password != confirmpassword) {
-      alert("비밀번호 확인란이 틀렸습니다. 다시 확인해주세요.");
+      toast.error("비밀번호 확인란이 틀렸습니다. 다시 확인해주세요.");
       return;
     }
-    const user = {
-      username,
-      email,
-      password,
-    };
-    console.log(user);
-    router.push("/");
+    registerMutation.mutate({ username, email, password });
   };
 
   return (

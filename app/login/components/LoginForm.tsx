@@ -2,25 +2,22 @@
 import { useState } from "react";
 
 import { ArrowRight, AtSign, Eye, EyeClosed, LockKeyhole } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/ui/InputField";
 
+import { useLogin } from "../hooks/useLogin";
+
 export default function LoginForm() {
-  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onRegisterButtonClick = () => {
-    const user = {
-      email,
-      password,
-    };
-    console.log(user);
-    router.push("/");
+  const loginMutation = useLogin();
+
+  const onLoginButtonClick = () => {
+    loginMutation.mutate({ email, password });
   };
 
   return (
@@ -53,7 +50,7 @@ export default function LoginForm() {
         variant="login"
         size="xlg"
         className="w-full bg-blue-300"
-        onClick={onRegisterButtonClick}
+        onClick={onLoginButtonClick}
       >
         로그인
         <ArrowRight />
