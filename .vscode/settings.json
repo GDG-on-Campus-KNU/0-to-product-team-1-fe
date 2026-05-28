@@ -1,5 +1,12 @@
 {
-  "cSpell.words": ["Figtree", "Gowun", "hugeicons", "logomark", "shadcn"],
+  "cSpell.words": [
+    "Autoresize",
+    "Figtree",
+    "Gowun",
+    "hugeicons",
+    "logomark",
+    "shadcn"
+  ],
   "files.eol": "\n",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
