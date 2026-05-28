@@ -5,8 +5,10 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
+import { useRedirectWhenLoggedIn } from "@/hooks/useRedirectWhenLoggedIn";
 
 export default function Landing() {
+  useRedirectWhenLoggedIn("/home");
   const router = useRouter();
 
   return (
