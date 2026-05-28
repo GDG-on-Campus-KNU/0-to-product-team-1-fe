@@ -1,7 +1,7 @@
 export const API = {
   AUTH: {
     SIGNUP_POST: "/api/auth/signup",
-    LOGIN_POST: "/api/auth/signup",
+    LOGIN_POST: "/api/auth/login",
   },
   ENTRY: {
     CREATE_POST: "/entries",

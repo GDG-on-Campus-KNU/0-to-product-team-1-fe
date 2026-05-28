@@ -1,6 +1,7 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
-export const tokenStorageName = "accesstoken";
+export const tokenStorageName = "accessToken";
 
 export const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -19,8 +20,11 @@ axiosInstance.interceptors.request.use((config) => {
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if ([401, 403].includes(error.response?.status))
-      console.warn("로그인 필요");
+    if ([401, 403].includes(error.response?.status)) {
+      localStorage.removeItem(tokenStorageName);
+      toast.info("로그인이 필요합니다.");
+      window.location.href = "/login";
+    }
     return Promise.reject(error);
   },
 );
