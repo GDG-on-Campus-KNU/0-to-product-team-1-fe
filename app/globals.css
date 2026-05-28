@@ -76,7 +76,7 @@
   --color-black: #222222;
   --color-white: #ffffff;
 
-  --color-background-light: var(--background);
+  --color-background-light: #FEFEFE;
   --color-background-dark: var(--muted);
   --color-text: var(--foreground);
 
@@ -95,7 +95,7 @@
 }
 
 :root {
-  --background: #fefefe;
+  --background: #F9F7F6;
   --muted: #fafafa;
   --foreground: #222222;
 
