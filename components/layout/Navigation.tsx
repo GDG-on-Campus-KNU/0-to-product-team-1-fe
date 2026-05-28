@@ -16,7 +16,7 @@ export default function Navigation() {
   ];
 
   return (
-    <nav className="flex items-center justify-between gap-10 rounded-full bg-background-light/70 px-8 py-3 shadow-md backdrop-blur-md">
+    <nav className="flex items-center justify-between gap-10 rounded-full bg-background-light/70 px-8 py-3 shadow-md">
       {navItems.map((item) => {
         const isActive =
           item.href === "/home"

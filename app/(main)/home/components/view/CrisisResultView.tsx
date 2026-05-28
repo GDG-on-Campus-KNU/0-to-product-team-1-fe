@@ -4,7 +4,7 @@ import React from "react";
 
 import { Phone, HeartHandshake } from "lucide-react";
 
-import type { CleanCrisis } from "../hooks/useGetDrill";
+import type { CleanCrisis } from "../../hooks/useGetDrill";
 
 interface CrisisResultViewProps {
   data: CleanCrisis;

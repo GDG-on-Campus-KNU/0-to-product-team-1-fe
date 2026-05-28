@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 
-import { StateSlider } from "@/components/StateSlider";
-import { TextInput } from "@/components/TextInput";
+import { StateSlider } from "@/app/(main)/home/components/StateSlider";
+import { TextInput } from "@/app/(main)/home/components/TextInput";
 import { Button } from "@/components/ui/button";
 
 interface DrillInputViewProps {

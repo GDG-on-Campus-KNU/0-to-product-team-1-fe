@@ -9,7 +9,7 @@ export default function MainLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex flex-1 flex-col w-full pb-[calc(120px+env(safe-area-inset-bottom))]">
+    <div className="flex flex-1 flex-col w-full pb-[calc(100px+env(safe-area-inset-bottom))]">
       <div className="sticky top-0 z-50 w-full">
         <Header />
       </div>
