@@ -3,6 +3,12 @@ import { toast } from "react-toastify";
 
 export const tokenStorageName = "accessToken";
 
+if (!process.env.NEXT_PUBLIC_API_URL) {
+  console.error(
+    "[axios] NEXT_PUBLIC_API_URL is not defined. Check your .env file.",
+  );
+}
+
 export const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   timeout: 3000,
