@@ -1,3 +1,22 @@
 {
-  "cSpell.words": ["Figtree", "Gowun", "hugeicons", "logomark", "shadcn"]
+  "cSpell.words": [
+    "Autoresize",
+    "Figtree",
+    "Gowun",
+    "hugeicons",
+    "logomark",
+    "shadcn"
+  ],
+  "files.eol": "\n",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.formatOnSave": false,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint"
 }

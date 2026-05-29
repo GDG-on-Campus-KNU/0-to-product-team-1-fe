@@ -39,7 +39,7 @@ export default function RootLayout({
     >
       <body className="min-h-dvh flex flex-col bg-gray-100 text-foreground relative overflow-x-hidden">
         <QueryClientProvider client={queryClient}>
-          <main className="flex-1 flex flex-col w-full max-w-120 mx-auto bg-background shadow-sm pb-[calc(80px+env(safe-area-inset-bottom))]">
+          <main className="flex-1 flex flex-col w-full max-w-120 mx-auto bg-background shadow-sm">
             {children}
           </main>
           <ToastContainer
