@@ -1,12 +1,18 @@
-import React from "react";
+"use client";
+
+import { useState } from "react";
+
+import { MonthlyView } from "./components/MonthlyView";
+import { SegmentedControl } from "./components/SegmentedControl";
+import { WeeklyView } from "./components/WeeklyView";
 
 export default function ReportList() {
+  const [viewType, setVoewType] = useState<"week" | "month">("month");
   return (
-    <div className="flex flex-1 items-center justify-center w-full p-5">
-      <h1 className="text-head-03 text-gray-800">
-        {" "}
-        주간 리포트 목록 페이지 입니다.
-      </h1>
+    <div className="flex flex-col flex-1 items-center w-full p-5">
+      <SegmentedControl value={viewType} onValueChange={setVoewType} />
+      {viewType === "week" && <WeeklyView />}
+      {viewType === "month" && <MonthlyView />}
     </div>
   );
 }
