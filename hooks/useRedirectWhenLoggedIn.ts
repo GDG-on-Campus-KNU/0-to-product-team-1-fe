@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 import { useRouter } from "next/navigation";
 
-export const tokenStorageName = "accessToken";
+import { tokenStorageName } from "@/lib/axios";
 
 export const isLoggedIn = () => {
   if (typeof window === "undefined") return false;

@@ -26,7 +26,7 @@ export function InputField({
   return (
     <div className={cn("flex flex-col gap-2", className)}>
       <span className="text-label-03 text-foreground">{label}</span>
-      <div className="flex items-center gap-3 bg-background rounded-full px-4 py-3.5">
+      <div className="flex items-center gap-3 bg-background border-1 rounded-full px-4 py-3.5">
         {icon && (
           <span className="text-gray-400 shrink-0 [&_svg]:size-[18px]">
             {icon}
