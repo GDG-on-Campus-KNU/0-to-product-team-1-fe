@@ -1,20 +1,29 @@
 "use client";
 
-import React, { useState } from "react";
-
 import { StateSlider } from "@/app/(main)/home/components/StateSlider";
 import { TextInput } from "@/app/(main)/home/components/TextInput";
 import { Button } from "@/components/ui/button";
 
+import { EntryData } from "../../hooks/useEntryData";
+
 interface DrillInputViewProps {
+  entryData: EntryData;
   onSubmit?: () => void;
 }
 
-export function DrillInputView({ onSubmit }: DrillInputViewProps) {
-  const [condition, setCondition] = useState<number>(3);
-  const [sleep, setSleep] = useState<number>(7);
-  const [exercise, setExercise] = useState<number>(0);
-  const [social, setSocial] = useState<number>(2);
+export function DrillInputView({ entryData, onSubmit }: DrillInputViewProps) {
+  const {
+    text,
+    setText,
+    condition,
+    setCondition,
+    sleep,
+    setSleep,
+    exercise,
+    setExercise,
+    social,
+    setSocial,
+  } = entryData;
 
   return (
     <div className="flex w-full max-w-sm flex-col gap-12">
@@ -22,7 +31,7 @@ export function DrillInputView({ onSubmit }: DrillInputViewProps) {
         <h1 className="text-head-03 text-gray-700">
           Q. 오늘 가장 신경쓰였던 일이 무엇이었나요?
         </h1>
-        <TextInput maxLength={200} />
+        <TextInput text={text} setText={setText} maxLength={200} />
       </div>
 
       <div className="flex w-full flex-col gap-6">
