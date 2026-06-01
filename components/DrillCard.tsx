@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 import { BrainCircuit } from "lucide-react";
 
-import type { CleanDrill } from "@/app/(main)/home/hooks/useGetDrill";
+import type { CleanDrill } from "@/app/(main)/home/hooks/usePostDrill";
 import { Switch } from "@/components/ui/switch";
 
 type DrillCardProps = Omit<CleanDrill, "type" | "id">;

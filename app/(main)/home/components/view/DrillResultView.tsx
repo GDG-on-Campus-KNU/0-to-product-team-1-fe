@@ -5,15 +5,17 @@ import React from "react";
 import { DrillCard } from "@/components/DrillCard";
 import { TextCard } from "@/components/TextCard";
 
-import type { CleanDrill } from "../../hooks/useGetDrill";
+import { EntryData } from "../../hooks/useEntryData";
+import type { CleanDrill } from "../../hooks/usePostDrill";
 import { FeedBackCard } from "../FeedBackCard";
 import { StateCard } from "../StateCard";
 
 interface DrillResultViewProps {
   data: CleanDrill;
+  entryData: EntryData;
 }
 
-export function DrillResultView({ data }: DrillResultViewProps) {
+export function DrillResultView({ data, entryData }: DrillResultViewProps) {
   return (
     <div className="flex w-full max-w-sm flex-col gap-10">
       <DrillCard
@@ -34,10 +36,10 @@ export function DrillResultView({ data }: DrillResultViewProps) {
           Q. 오늘 나의 상태는 어떤가요?
         </h1>
         <div className="grid w-full grid-cols-2 gap-4">
-          <StateCard variant="sleep" value={7.5} />
-          <StateCard variant="exercise" value={1} />
-          <StateCard variant="condition" value={4} />
-          <StateCard variant="social" value={2} />
+          <StateCard variant="sleep" value={entryData.sleep} />
+          <StateCard variant="exercise" value={entryData.exercise} />
+          <StateCard variant="condition" value={entryData.condition} />
+          <StateCard variant="social" value={entryData.social} />
         </div>
       </div>
       <FeedBackCard />

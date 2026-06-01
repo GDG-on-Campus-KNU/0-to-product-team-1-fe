@@ -1,4 +1,4 @@
-import type { CleanDrill, CleanCrisis } from "../hooks/useGetDrill";
+import type { CleanDrill, CleanCrisis } from "../hooks/usePostDrill";
 
 export const MOCK_DRILL: CleanDrill = {
   type: "drill",

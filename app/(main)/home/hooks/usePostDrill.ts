@@ -7,6 +7,17 @@ import { toast } from "react-toastify";
 import { API } from "@/lib/api/endpoints";
 import { axiosInstance } from "@/lib/axios";
 
+export type CreateEntryRequest = {
+  text: string;
+  context: {
+    sleep_hours: number;
+    social_today: string; // social type?
+    exercise_today: number;
+    self_condition: number;
+  };
+  self_condition: number;
+};
+
 export type CleanDrill = {
   type: "drill";
   id: number;
@@ -25,9 +36,9 @@ export type CleanCrisis = {
 export type CleanResult = CleanDrill | CleanCrisis;
 
 export async function createEntryAndGetDrill(
-  text: string,
+  data: CreateEntryRequest,
 ): Promise<CleanResult> {
-  const response = await axiosInstance.post(API.ENTRY.CREATE_POST, { text });
+  const response = await axiosInstance.post(API.ENTRY.CREATE_POST, data);
 
   const rawData = response.data;
   const recommendation = rawData.recommendationJson;
@@ -55,9 +66,9 @@ export async function createEntryAndGetDrill(
   throw new Error("알 수 없는 추천 타입이 반환되었습니다.");
 }
 
-export function useGetDrill() {
+export function usePostDrill() {
   return useMutation({
-    mutationFn: (text: string) => createEntryAndGetDrill(text),
+    mutationFn: (data: CreateEntryRequest) => createEntryAndGetDrill(data),
 
     onSuccess: (cleanData) => {
       if (cleanData.type === "drill") {
