@@ -42,21 +42,25 @@ export const STATE_CONFIG = {
   },
 } as const;
 
-export const getSocialLabelForAPI = (
-  value: number,
-): "활발" | "보통" | "적음" | "없음" => {
-  switch (value) {
-    case 0:
-      return "없음";
-    case 1:
-      return "적음";
-    case 2:
-      return "보통";
-    case 3:
-      return "활발";
-    default:
-      throw new Error(`Invalid social value: ${value}`);
+export const SOCIAL_MAP = {
+  없음: 0,
+  적음: 1,
+  보통: 2,
+  활발: 3,
+} as const;
+
+export type SocialLabel = keyof typeof SOCIAL_MAP;
+
+export const getSocialValueForAPI = (label: SocialLabel) => SOCIAL_MAP[label];
+
+export const getSocialLabelForAPI = (value: number): SocialLabel => {
+  const entry = Object.entries(SOCIAL_MAP).find(([, v]) => v === value);
+
+  if (!entry) {
+    throw new Error(`Invalid social value: ${value}`);
   }
+
+  return entry[0] as SocialLabel;
 };
 
 export type StateVariantType = keyof typeof STATE_CONFIG;

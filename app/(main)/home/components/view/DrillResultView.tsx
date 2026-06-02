@@ -1,11 +1,14 @@
 "use client";
 
-import React from "react";
+import { useEffect } from "react";
 
 import { DrillCard } from "@/components/DrillCard";
 import { TextCard } from "@/components/TextCard";
 
 import { EntryData } from "../../hooks/useEntryData";
+import { useFeedback } from "../../hooks/useFeedback";
+import { useFeedbackData } from "../../hooks/useFeedbackData";
+import { DrillGetResponse } from "../../hooks/useGetDrill";
 import type { CleanDrill } from "../../hooks/usePostDrill";
 import { FeedBackCard } from "../FeedBackCard";
 import { StateCard } from "../StateCard";
@@ -13,9 +16,29 @@ import { StateCard } from "../StateCard";
 interface DrillResultViewProps {
   data: CleanDrill;
   entryData: EntryData;
+  drillData: DrillGetResponse;
 }
 
-export function DrillResultView({ data, entryData }: DrillResultViewProps) {
+export function DrillResultView({
+  data,
+  entryData,
+  drillData,
+}: DrillResultViewProps) {
+  const feedbackData = useFeedbackData();
+  const feedbackMutation = useFeedback({ entryId: drillData.entryId });
+
+  const { setDrillCompleted, setHelpful } = feedbackData;
+
+  useEffect(() => {
+    setDrillCompleted(drillData.drillCompleted);
+    setHelpful(drillData.helpful);
+  }, [
+    setDrillCompleted,
+    setHelpful,
+    drillData.drillCompleted,
+    drillData.helpful,
+  ]);
+
   return (
     <div className="flex w-full max-w-sm flex-col gap-10">
       <DrillCard
@@ -24,6 +47,8 @@ export function DrillResultView({ data, entryData }: DrillResultViewProps) {
         instruction={data.instruction}
         citation={data.citation}
         evidence_span={data.evidence_span}
+        feedbackData={feedbackData}
+        feedbackMutation={feedbackMutation}
       />
       <div className="flex w-full flex-col gap-6">
         <h1 className="text-body-01 text-gray-700">
@@ -42,7 +67,10 @@ export function DrillResultView({ data, entryData }: DrillResultViewProps) {
           <StateCard variant="social" value={entryData.social} />
         </div>
       </div>
-      <FeedBackCard />
+      <FeedBackCard
+        feedbackData={feedbackData}
+        feedbackMutation={feedbackMutation}
+      />
     </div>
   );
 }

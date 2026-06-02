@@ -35,12 +35,24 @@ export type CleanCrisis = {
 
 export type CleanResult = CleanDrill | CleanCrisis;
 
-export async function createEntryAndGetDrill(
-  data: CreateEntryRequest,
-): Promise<CleanResult> {
-  const response = await axiosInstance.post(API.ENTRY.CREATE_POST, data);
+export type RawData = {
+  recommendationJson: {
+    type: "drill" | "crisis_card";
+    drill: {
+      id: number;
+      name: string;
+      duration_min: number;
+      instruction: string;
+      citation: string;
+    };
+    crisis_resources?: Record<string, string>;
+  };
+  labelResultJson: {
+    evidence_span: string;
+  };
+};
 
-  const rawData = response.data;
+export function processResponseToCleanData(rawData: RawData): CleanResult {
   const recommendation = rawData.recommendationJson;
   const labelResult = rawData.labelResultJson;
 
@@ -64,6 +76,14 @@ export async function createEntryAndGetDrill(
   }
 
   throw new Error("알 수 없는 추천 타입이 반환되었습니다.");
+}
+
+export async function createEntryAndGetDrill(
+  data: CreateEntryRequest,
+): Promise<CleanResult> {
+  const response = await axiosInstance.post(API.ENTRY.CREATE_POST, data);
+  const rawData = response.data;
+  return processResponseToCleanData(rawData);
 }
 
 export function usePostDrill() {

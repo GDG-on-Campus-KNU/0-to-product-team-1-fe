@@ -5,7 +5,10 @@ import { useEffect, useRef, useState } from "react";
 import { BeatLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
-import { getSocialLabelForAPI } from "@/lib/constants/state-config";
+import {
+  getSocialLabelForAPI,
+  getSocialValueForAPI,
+} from "@/lib/constants/state-config";
 
 import { CrisisResultView } from "./components/view/CrisisResultView";
 import { DrillInputView } from "./components/view/DrillInputView";
@@ -13,7 +16,12 @@ import { DrillLoadingView } from "./components/view/DrillLoadingView";
 import { DrillResultView } from "./components/view/DrillResultView";
 import { useEntryData } from "./hooks/useEntryData";
 import { useGetDrill } from "./hooks/useGetDrill";
-import { usePostDrill, type CleanResult } from "./hooks/usePostDrill";
+import {
+  processResponseToCleanData,
+  RawData,
+  usePostDrill,
+  type CleanResult,
+} from "./hooks/usePostDrill";
 
 type Step = "INPUT" | "LOADING" | "RESULT";
 
@@ -25,14 +33,23 @@ export default function Home() {
 
   const entryData = useEntryData();
 
-  const { data, isLoading } = useGetDrill();
+  const { data: drillData, isLoading } = useGetDrill();
   const hasInitialized = useRef(false);
   useEffect(() => {
-    if (!hasInitialized.current && data?.hasDrill) {
+    if (!hasInitialized.current && drillData?.hasDrill) {
       hasInitialized.current = true;
+      entryData.setCondition(drillData.contextJson.self_condition);
+      entryData.setExercise(drillData.contextJson.exercise_today);
+      entryData.setSleep(drillData.contextJson.sleep_hours);
+      entryData.setSocial(
+        getSocialValueForAPI(drillData.contextJson.social_today),
+      );
+      entryData.setText(drillData.text);
+      setResultData(processResponseToCleanData(drillData as RawData));
       setCurrentStep("RESULT");
+      toast.info("오늘은 이미 작성을 하셨어요, 내일 또다시 봐요!");
     }
-  }, [data?.hasDrill]);
+  }, [drillData, drillData?.hasDrill, entryData]);
 
   if (isLoading) {
     return (
@@ -42,6 +59,7 @@ export default function Home() {
       </div>
     );
   }
+
   const handleInputSubmit = () => {
     setCurrentStep("LOADING");
 
@@ -80,7 +98,11 @@ export default function Home() {
       {currentStep === "RESULT" &&
         resultData &&
         (resultData.type === "drill" ? (
-          <DrillResultView data={resultData} entryData={entryData} />
+          <DrillResultView
+            data={resultData}
+            entryData={entryData}
+            drillData={drillData!}
+          />
         ) : (
           <CrisisResultView data={resultData} />
         ))}
