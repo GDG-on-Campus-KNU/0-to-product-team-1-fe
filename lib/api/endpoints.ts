@@ -5,7 +5,7 @@ export const API = {
   },
   ENTRY: {
     CREATE_POST: "/entries",
-    ANSWER_POST: (entryId: number) => `/entries/${entryId}/ask-answer`,
+    FEEDBACK_PATCH: (entryId: number) => `/entries/${entryId}/feedback`,
   },
   RECORD: {
     CALENDAR_GET: "/records/calendar",

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 
 import TextareaAutosize from "react-textarea-autosize";
 
@@ -11,12 +11,12 @@ import {
 } from "@/components/ui/input-group";
 
 interface TextInputProps {
+  text: string;
+  setText: React.Dispatch<React.SetStateAction<string>>;
   maxLength?: number;
 }
 
-export function TextInput({ maxLength = 200 }: TextInputProps) {
-  const [text, setText] = useState("");
-
+export function TextInput({ text, setText, maxLength = 200 }: TextInputProps) {
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = e.target.value;
     if (inputValue.length > maxLength) {

@@ -1,13 +1,27 @@
 "use client";
 
-import React, { useState } from "react";
-
+import { UseMutationResult } from "@tanstack/react-query";
 import { BrainCircuit } from "lucide-react";
 
-import type { CleanDrill } from "@/app/(main)/home/hooks/useGetDrill";
+import {
+  EntryFeedbackRequest,
+  EntryFeedbackResponse,
+} from "@/app/(main)/home/hooks/useFeedback";
+import { FeedbackData } from "@/app/(main)/home/hooks/useFeedbackData";
+import type { CleanDrill } from "@/app/(main)/home/hooks/usePostDrill";
 import { Switch } from "@/components/ui/switch";
 
-type DrillCardProps = Omit<CleanDrill, "type" | "id">;
+type DrillCardProps = Omit<CleanDrill, "type" | "id"> & {
+  feedbackData: FeedbackData;
+  feedbackMutation: UseMutationResult<
+    EntryFeedbackResponse,
+    Error,
+    {
+      body: EntryFeedbackRequest;
+    },
+    unknown
+  >;
+};
 
 export function DrillCard({
   name,
@@ -15,9 +29,9 @@ export function DrillCard({
   instruction,
   citation,
   evidence_span,
+  feedbackData,
+  feedbackMutation,
 }: DrillCardProps) {
-  const [isCompleted, setIsCompleted] = useState(false);
-
   return (
     <div className="flex w-full max-w-sm flex-col gap-6 rounded-4xl bg-gray-200 p-6 shadow-sm">
       <div className="flex items-start justify-between">
@@ -35,16 +49,30 @@ export function DrillCard({
 
         <div className="flex shrink-0 items-center gap-2.5 rounded-full bg-white/50 px-3.5 py-2 shadow-sm">
           <Switch
-            checked={isCompleted}
-            onCheckedChange={setIsCompleted}
+            checked={feedbackData.drillCompleted}
+            onCheckedChange={() => {
+              feedbackMutation.mutate(
+                {
+                  body: {
+                    helpful: feedbackData.helpful,
+                    drill_completed: !feedbackData.drillCompleted,
+                  },
+                },
+                {
+                  onSuccess: () => {
+                    feedbackData.setDrillCompleted((prev) => !prev);
+                  },
+                },
+              );
+            }}
             className="data-checked:bg-gray-600! data-unchecked:bg-gray-300! **:data-[slot=switch-thumb]:border-0 **:data-[slot=switch-thumb]:mb-px **:data-[slot=switch-thumb]:bg-white!"
           />
           <span
             className={`text-label-01 transition-colors ${
-              isCompleted ? "text-gray-600" : "text-gray-500"
+              feedbackData.drillCompleted ? "text-gray-600" : "text-gray-500"
             }`}
           >
-            {isCompleted ? "완료됨" : "미완료"}
+            {feedbackData.drillCompleted ? "완료됨" : "미완료"}
           </span>
         </div>
       </div>

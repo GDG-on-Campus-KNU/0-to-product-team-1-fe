@@ -1,77 +1,97 @@
-"use client";
-
-import { useMutation } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { toast } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
 
 import { API } from "@/lib/api/endpoints";
 import { axiosInstance } from "@/lib/axios";
+import { SocialLabel } from "@/lib/constants/state-config";
 
-export type CleanDrill = {
-  type: "drill";
-  id: number;
-  name: string;
-  duration_min: number;
-  instruction: string;
-  citation: string;
-  evidence_span: string;
-};
-
-export type CleanCrisis = {
-  type: "crisis_card";
-  crisis_resources: Record<string, string>;
-};
-
-export type CleanResult = CleanDrill | CleanCrisis;
-
-export async function createEntryAndGetDrill(
-  text: string,
-): Promise<CleanResult> {
-  const response = await axiosInstance.post(API.ENTRY.CREATE_POST, { text });
-
-  const rawData = response.data;
-  const recommendation = rawData.recommendationJson;
-  const labelResult = rawData.labelResultJson;
-
-  if (recommendation.type === "drill") {
-    return {
-      type: "drill",
-      id: recommendation.drill.id,
-      name: recommendation.drill.name,
-      duration_min: recommendation.drill.duration_min,
-      instruction: recommendation.drill.instruction,
-      citation: recommendation.drill.citation,
-      evidence_span: labelResult.evidence_span,
-    } as CleanDrill;
-  }
-
-  if (recommendation.type === "crisis_card") {
-    return {
-      type: "crisis_card",
-      crisis_resources: recommendation.crisis_resources,
-    } as CleanCrisis;
-  }
-
-  throw new Error("알 수 없는 추천 타입이 반환되었습니다.");
+export interface DrillGetResponse {
+  hasDrill: boolean;
+  entryId: number;
+  text: string;
+  drillId: number;
+  drillCategory: string;
+  drillCalendarColor: string;
+  labelResultJson: {
+    emotions: {
+      분노: number;
+      불안: number;
+      우울: number;
+      죄책: number;
+      중립: number;
+    };
+    patterns: {
+      독심술: number;
+      이분법: number;
+      당위진술: number;
+      미래예측: number;
+      자기비난: number;
+      과잉일반화: number;
+    };
+    behaviors: {
+      동기저하: number;
+      회피미루기: number;
+    };
+    intensity: number;
+    confidence: number;
+    labeled_at: Date;
+    model_used: string;
+    evidence_span: string;
+    crisis_detected: boolean;
+    clarified_winner: string;
+    calendar_dominant: string;
+    clarification_reason: string;
+    clarification_applied: {
+      boost: number;
+      choice: string;
+      candidates: string[];
+    };
+    evidence_span_warning: string;
+  };
+  recommendationJson: {
+    why: {
+      text: string;
+      tone: string;
+      factors: unknown[];
+      mechanism: string;
+      expected_benefit: string;
+    };
+    copy: {
+      line1: string;
+      line2: string;
+      line3: string;
+    };
+    tone: string;
+    type: "drill" | "crisis_card";
+    drill: {
+      id: number;
+      name: string;
+      category: string;
+      citation: string;
+      instruction: string;
+      duration_min: number;
+    };
+    reason: string;
+  };
+  drillCompleted: boolean;
+  helpful: boolean;
+  contextJson: {
+    sleep_hours: number;
+    social_today: SocialLabel;
+    exercise_today: number;
+    self_condition: number;
+  };
+  recordedDate: Date;
+  createdAt: Date;
 }
 
-export function useGetDrill() {
-  return useMutation({
-    mutationFn: (text: string) => createEntryAndGetDrill(text),
+const getDrill = async (): Promise<DrillGetResponse> => {
+  const { data } = await axiosInstance.get(API.DRILL.TODAY_GET);
+  return data;
+};
 
-    onSuccess: (cleanData) => {
-      if (cleanData.type === "drill") {
-        console.info("일반 드릴 추천됨:", cleanData);
-      } else {
-        console.info("위기 카드 추천됨:", cleanData);
-      }
-    },
-
-    onError: (error) => {
-      const axiosError = error as AxiosError<{ message?: string }>;
-      toast.error(
-        axiosError.response?.data?.message || "기록 저장에 실패했습니다.",
-      );
-    },
+export const useGetDrill = () => {
+  return useQuery<DrillGetResponse>({
+    queryKey: ["drill", "today"],
+    queryFn: getDrill,
   });
-}
+};
