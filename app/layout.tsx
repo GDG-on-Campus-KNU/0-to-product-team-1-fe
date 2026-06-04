@@ -17,8 +17,27 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "My Mobile App",
-  description: "Mobile first web application",
+  title: "StepBack",
+  description:
+    "매일 기록한 마음과 생각을 바탕으로, 지금 필요한 작은 실천을 추천하고 나만의 주간 리포트로 변화를 발견하게 돕는 자기계발 도구",
+  icons: {
+    icon: "/favicon.svg",
+  },
+  openGraph: {
+    title: "StepBack",
+    description: "지금 필요한 작은 실천으로 나를 가꾸다",
+    url: "https://sb.soomn.com",
+    type: "website",
+    locale: "ko_KR",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 800,
+        height: 400,
+        alt: "StepBack - 자기계발 도구",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
