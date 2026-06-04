@@ -76,6 +76,13 @@
   --color-black: #222222;
   --color-white: #ffffff;
 
+  --color-orange: #FFCD86;
+  --color-green: #B2E4D4;
+  --color-red: #FB9F93;
+  --color-sky: #AEDEF3;
+  --color-pink: #F9CFDB;
+  --color-indigo: #C3C4EE;
+
   --color-background-light: #fefefe;
   --color-background-dark: var(--muted);
   --color-text: var(--foreground);
