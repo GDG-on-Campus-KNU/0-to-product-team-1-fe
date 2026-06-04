@@ -17,6 +17,7 @@ export function DrillResultView({ data }: DrillResultViewProps) {
   return (
     <div className="flex w-full max-w-sm flex-col gap-10">
       <DrillCard
+        id={data.id}
         name={data.name}
         duration_min={data.duration_min}
         instruction={data.instruction}

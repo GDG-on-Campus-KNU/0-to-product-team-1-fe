@@ -6,24 +6,31 @@ import { BrainCircuit } from "lucide-react";
 
 import type { CleanDrill } from "@/app/(main)/home/hooks/useGetDrill";
 import { Switch } from "@/components/ui/switch";
+import { getDrillConfig } from "@/lib/constants/drill-config";
 
-type DrillCardProps = Omit<CleanDrill, "type" | "id">;
+type DrillCardProps = Omit<CleanDrill, "type">;
 
 export function DrillCard({
+  id,
   name,
   duration_min,
   instruction,
   citation,
   evidence_span,
 }: DrillCardProps) {
+  const drillConfig = getDrillConfig(id);
+  const Icon = drillConfig?.icon ?? BrainCircuit;
   const [isCompleted, setIsCompleted] = useState(false);
 
   return (
     <div className="flex w-full max-w-sm flex-col gap-6 rounded-4xl bg-gray-200 p-6 shadow-sm">
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-pink-400">
-            <BrainCircuit className="size-6 text-gray-600" />
+          <div
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full"
+            style={{ backgroundColor: drillConfig?.hex ?? "#F9CFDB" }}
+          >
+            <Icon className="size-6 text-gray-700" />
           </div>
           <div className="flex flex-col">
             <span className="text-label-01 text-gray-600">
