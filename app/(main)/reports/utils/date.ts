@@ -1,4 +1,41 @@
+import { ReportDetail } from "../hooks/useGetReportDetail";
 import { ReportSummary } from "../hooks/useGetReports";
+
+const DAY_KO = ["일", "월", "화", "수", "목", "금", "토"];
+
+export type DailyDrillGroup = {
+  date: string;
+  dayKo: string;
+  day: number;
+  drills: { drillCategory: string; drillCompleted: boolean | null }[];
+};
+
+export function groupDrillsByDate(
+  dailyDrills: ReportDetail["dailyDrills"],
+): DailyDrillGroup[] {
+  const map = new Map<string, DailyDrillGroup>();
+
+  for (const drill of dailyDrills) {
+    if (!map.has(drill.date)) {
+      const [year, month, d] = drill.date.split("-").map(Number);
+      const date = new Date(year, month - 1, d);
+      map.set(drill.date, {
+        date: drill.date,
+        dayKo: DAY_KO[date.getDay()],
+        day: d,
+        drills: [],
+      });
+    }
+    if (drill.drillCategory) {
+      map.get(drill.date)!.drills.push({
+        drillCategory: drill.drillCategory,
+        drillCompleted: drill.drillCompleted,
+      });
+    }
+  }
+
+  return Array.from(map.values());
+}
 
 export function parseWeekId(weekId: string): {
   month: number;
