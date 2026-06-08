@@ -35,4 +35,8 @@ export const API = {
     EXPORT_GET: "/export",
     DRILL: { _GET: "/drills", DETAIL_GET: (id: number) => `/drills/${id}` },
   },
+  REPORT: {
+    WEEKLY_LIST_GET: "/reports/weekly",
+    WEEKLY_DETAIL_GET: (weekId: string) => `reports/weekly/${weekId}`,
+  },
 };

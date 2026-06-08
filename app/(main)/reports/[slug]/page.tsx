@@ -1,16 +1,44 @@
-import React from "react";
+"use client";
 
-export default async function ReportDetail({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
+import { useParams } from "next/navigation";
+import { BeatLoader } from "react-spinners";
+
+import { useGetReportDetail } from "../hooks/useGetReportDetail";
+import ConditionFlow from "./components/ConditionFlow";
+import DailyDrillRecord from "./components/DailyDrillRecord";
+import InsightOfWeek from "./components/InsightOfWeek";
+import LifeSummary from "./components/LifeSummary";
+import MyInsight from "./components/MyInsight";
+import PatternDifference from "./components/PatternDifference";
+import WeeklyEmotionDistribution from "./components/WeeklyEmotionDistribution";
+
+export default function ReportDetail() {
+  const { slug } = useParams<{ slug: string }>();
+  const { data, isLoading, isError } = useGetReportDetail({ weekId: slug });
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center pt-10">
+        <BeatLoader size={12} />
+      </div>
+    );
+  }
+
+  if (isError || !data) {
+    return (
+      <p className="text-label-02 text-gray-400">데이터를 불러올 수 없습니다</p>
+    );
+  }
+
   return (
-    <div className="flex flex-1 items-center justify-center w-full p-5">
-      <h1 className="text-text-head-02 text-gray-800">
-        {slug}에 대한 특정 날짜 리포트 페이지 입니다.
-      </h1>
+    <div className="flex flex-1 flex-col items-center justify-center w-full p-5">
+      <DailyDrillRecord />
+      <WeeklyEmotionDistribution />
+      <LifeSummary />
+      <ConditionFlow />
+      <PatternDifference />
+      <InsightOfWeek />
+      <MyInsight />
     </div>
   );
 }
