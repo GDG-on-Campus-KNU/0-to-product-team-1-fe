@@ -31,7 +31,7 @@ export default function ReportDetail() {
   }
 
   return (
-    <div className="flex flex-1 flex-col-reverse items-center justify-center w-full p-5">
+    <div className="flex flex-1 flex-col items-center justify-center w-full p-5">
       <DailyDrillRecord />
       <WeeklyEmotionDistribution />
       <LifeSummary />
