@@ -21,6 +21,8 @@ export default function DailyDrillRecord() {
 
   const groups = groupDrillsByDate(data.dailyDrills);
 
+  const description = `${data.blocksJson.block1_action_rate.rate}%, ${data.blocksJson.block1_action_rate.description}`;
+
   return (
     <div className="flex flex-col items-center justify-center w-full p-5">
       <h1 className="text-head-02 text-gray-800 self-start m-2">
@@ -76,6 +78,12 @@ export default function DailyDrillRecord() {
             </div>
           );
         })}
+      </div>
+
+      <div className="flex w-full flex-col gap-4 rounded-3xl bg-stone-100 p-4 pb-5">
+        <p className="text-center text-label-04 text-gray-500">
+          &ldquo;{description}&rdquo;
+        </p>
       </div>
     </div>
   );
