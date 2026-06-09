@@ -1,6 +1,14 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import {
+  RadarChart,
+  Radar,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  ResponsiveContainer,
+} from "recharts";
 
 import { useGetReportDetail } from "../../hooks/useGetReportDetail";
 
@@ -15,7 +23,13 @@ export default function WeeklyEmotionDistribution() {
     return;
   }
 
-  const description = `${data.blocksJson.block2_emotion_summary.primary_emotion}: ${data.blocksJson.block2_emotion_summary.description}`;
+  const { axes, dominant, entries_used } =
+    data.visualizationsJson.emotion_pentagon;
+
+  const axesWithPercent = axes.map((a) => ({
+    ...a,
+    displayLabel: `${a.label} ${(a.value * 100).toFixed(1)}%`,
+  }));
 
   return (
     <div className="flex flex-col items-center justify-center w-full p-5">
@@ -23,10 +37,37 @@ export default function WeeklyEmotionDistribution() {
         주간 감정 분포
       </h1>
 
-      <div className="flex w-full flex-col gap-4 rounded-3xl bg-stone-100 p-4 pb-5">
-        <p className="text-center text-label-04 text-gray-500">
-          &ldquo;{description}&rdquo;
-        </p>
+      <div className="flex w-full flex-col gap-4 rounded-3xl bg-stone-100 p-5">
+        <div className="flex items-baseline gap-2">
+          <span className="text-head-03 text-foreground">{dominant}</span>
+          <span className="text-label-04 text-gray-400">
+            {entries_used}개 기록 기준
+          </span>
+        </div>
+
+        <ResponsiveContainer width="100%" height={260}>
+          <RadarChart
+            data={axesWithPercent}
+            cx="50%"
+            cy="50%"
+            outerRadius="80%"
+          >
+            <PolarGrid stroke="#e3e1e7" />
+            <PolarAngleAxis
+              dataKey="displayLabel"
+              tick={{ fill: "#807e87", fontSize: 11 }}
+              tickLine={false}
+            />
+            <PolarRadiusAxis domain={[0, 1]} tick={false} axisLine={false} />
+            <Radar
+              dataKey="value"
+              stroke="#bfc5bd"
+              fill="#bfc5bd"
+              fillOpacity={0.4}
+              strokeWidth={2}
+            />
+          </RadarChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );

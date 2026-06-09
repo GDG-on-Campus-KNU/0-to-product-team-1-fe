@@ -24,7 +24,8 @@ export default function ConditionFlow() {
     return;
   }
 
-  const { emotion_trend } = data.visualizationsJson;
+  const { points } = data.visualizationsJson.condition_flow;
+  const description = `${data.blocksJson.block2_emotion_summary.primary_emotion}: ${data.blocksJson.block2_emotion_summary.description}`;
 
   return (
     <div className="flex flex-col items-center justify-center w-full p-5">
@@ -33,11 +34,11 @@ export default function ConditionFlow() {
       <div className="flex w-full flex-col gap-4 rounded-3xl bg-stone-100 p-4 pb-5">
         <ResponsiveContainer width="100%" height={180}>
           <LineChart
-            data={emotion_trend}
+            data={points}
             margin={{ top: 12, right: 16, left: 0, bottom: 4 }}
           >
             <XAxis
-              dataKey="day"
+              dataKey="dow"
               tickLine={false}
               axisLine={false}
               tick={{ fill: "#aba9b3", fontSize: 12 }}
@@ -57,7 +58,7 @@ export default function ConditionFlow() {
             />
             <Line
               type="monotone"
-              dataKey="score"
+              dataKey="avg_condition"
               stroke="#bfc5bd"
               strokeWidth={2.5}
               dot={<Dot r={4} fill="#46434e" strokeWidth={0} />}
@@ -65,6 +66,10 @@ export default function ConditionFlow() {
             />
           </LineChart>
         </ResponsiveContainer>
+
+        <p className="text-center text-label-04 text-gray-500">
+          &ldquo;{description}&rdquo;
+        </p>
       </div>
     </div>
   );

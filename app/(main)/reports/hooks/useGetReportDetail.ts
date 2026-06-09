@@ -21,14 +21,47 @@ export type ReportDetail = {
     };
   };
   visualizationsJson: {
-    emotion_trend: {
-      day: string;
-      score: number;
+    pattern_diff: {
+      prev_percent: number;
+      pattern: string;
+      delta_percent: number;
+      arrow: string;
+      current_percent: number;
     }[];
-    category_distribution: {
-      호흡: number;
-      마음챙김: number;
-      인지재구성: number;
+
+    condition_flow: {
+      points: {
+        dow: string;
+        count: number;
+        avg_condition: number;
+      }[];
+    };
+    discoveries: {
+      source: string;
+      category: string;
+      count?: number;
+      text: string;
+    }[];
+
+    emotion_pentagon: {
+      axes: {
+        label: string;
+        value: number;
+      }[];
+      dominant: string;
+      entries_used: number;
+    };
+    weekly_coaching: {
+      state: {
+        key: string;
+        label: string;
+        summary: string;
+      };
+      next_week_focus: {
+        category: string;
+        label_ko: string;
+        reason: string;
+      };
     };
   };
   dailyDrills: {
