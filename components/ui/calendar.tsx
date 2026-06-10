@@ -2,22 +2,17 @@
 
 import * as React from "react";
 
-import {
-  ChevronLeft,
-  ChevronRight,
-  Heart,
-  TreePine,
-  Smile,
-} from "lucide-react";
+import { BrainCircuit, ChevronLeft, ChevronRight } from "lucide-react";
 import { DayPicker, DayButton } from "react-day-picker";
 
 import { Button } from "@/components/ui/button";
+import { getDrillConfig } from "@/lib/constants/drill-config";
 import { cn } from "@/lib/utils";
 
 export type CalendarEvent = {
   date: Date;
-  icon: "tree" | "heart" | "smile";
-  count?: number;
+  drillId: number;
+  isCompleted: boolean;
 };
 
 interface CalendarProps {
@@ -25,6 +20,7 @@ interface CalendarProps {
   onSelect?: (date: Date | undefined) => void;
   events?: CalendarEvent[];
   defaultMonth?: Date;
+  onMonthChange?: (month: Date) => void;
 }
 
 export function Calendar({
@@ -32,6 +28,7 @@ export function Calendar({
   onSelect,
   events = [],
   defaultMonth = new Date(),
+  onMonthChange,
 }: CalendarProps) {
   return (
     <div className="w-full rounded-3xl bg-stone-100 p-6">
@@ -40,6 +37,7 @@ export function Calendar({
         selected={selected}
         onSelect={onSelect}
         defaultMonth={defaultMonth}
+        onMonthChange={onMonthChange}
         showOutsideDays
         components={{
           Chevron: ({ orientation }) =>
@@ -96,30 +94,25 @@ function CalendarDayButton({
   );
 
   if (event) {
+    const drillConfig = getDrillConfig(event.drillId);
+    const Icon = drillConfig?.icon ?? BrainCircuit;
+    const bgColor = drillConfig?.hex ?? "#F9CFDB";
+
     return (
       <div className="flex flex-col items-center gap-1">
         <Button
           variant="ghost"
           size="icon"
           className={cn(
-            "size-10 rounded-full p-0 hover:bg-transparent",
-            event.icon === "heart" ? "bg-green-100" : "bg-pink-400",
-            modifiers.selected && "border-2 border-green-500 bg-transparent",
+            "size-10 rounded-full p-0 hover:opacity-80",
+            !event.isCompleted && "opacity-40",
+            modifiers.selected && "ring-2 ring-green-500",
           )}
+          style={{ backgroundColor: bgColor }}
           {...props}
         >
-          {event.icon === "tree" && <TreePine className="size-4" />}
-
-          {event.icon === "heart" && <Heart className="size-4" />}
-
-          {event.icon === "smile" && <Smile className="size-4" />}
+          <Icon className="size-4 text-gray-700" />
         </Button>
-
-        {event.count && (
-          <span className="text-label-06 text-gray-400 leading-none">
-            {event.count}
-          </span>
-        )}
       </div>
     );
   }
