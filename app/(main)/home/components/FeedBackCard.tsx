@@ -1,13 +1,43 @@
 "use client";
 
-import React, { useState } from "react";
-
+import { UseMutationResult } from "@tanstack/react-query";
 import { ThumbsUp, ThumbsDown } from "lucide-react";
 
-export function FeedBackCard() {
-  const [feedback, setFeedback] = useState<"helpful" | "unhelpful" | null>(
-    null,
-  );
+import {
+  EntryFeedbackRequest,
+  EntryFeedbackResponse,
+} from "../hooks/useFeedback";
+import { FeedbackData } from "../hooks/useFeedbackData";
+
+type FeedBackCardProps = {
+  feedbackData: FeedbackData;
+  feedbackMutation: UseMutationResult<
+    EntryFeedbackResponse,
+    Error,
+    { body: EntryFeedbackRequest },
+    unknown
+  >;
+};
+
+export function FeedBackCard({
+  feedbackData,
+  feedbackMutation,
+}: FeedBackCardProps) {
+  const handleHelpful = (value: boolean) => {
+    feedbackMutation.mutate(
+      {
+        body: {
+          helpful: value,
+          drill_completed: feedbackData.drillCompleted,
+        },
+      },
+      {
+        onSuccess: () => {
+          feedbackData.setHelpful(value);
+        },
+      },
+    );
+  };
 
   return (
     <div className="flex w-full max-w-sm flex-col items-center gap-6 px-6 py-8">
@@ -15,9 +45,9 @@ export function FeedBackCard() {
 
       <div className="flex w-full items-stretch justify-center gap-3">
         <button
-          onClick={() => setFeedback("helpful")}
+          onClick={() => handleHelpful(true)}
           className={`flex flex-1 items-center justify-center gap-2.5 rounded-4xl border border-gray-400 px-4 py-4 transition-all active:scale-95 ${
-            feedback === "helpful"
+            feedbackData.helpful === true
               ? "bg-gray-400 text-white"
               : "bg-muted text-gray-600 hover:bg-gray-100"
           }`}
@@ -29,9 +59,9 @@ export function FeedBackCard() {
         </button>
 
         <button
-          onClick={() => setFeedback("unhelpful")}
+          onClick={() => handleHelpful(false)}
           className={`flex flex-1 items-center justify-center gap-2.5 rounded-4xl border border-gray-400 px-4 py-4 transition-all active:scale-95 ${
-            feedback === "unhelpful"
+            feedbackData.helpful === false
               ? "bg-gray-400 text-white"
               : "bg-muted text-gray-600 hover:bg-gray-100"
           }`}
@@ -42,6 +72,10 @@ export function FeedBackCard() {
           </span>
         </button>
       </div>
+
+      <p className="text-label-05 text-gray-400">
+        한 번만 선택 후 변경할 수 없습니다.
+      </p>
     </div>
   );
 }
