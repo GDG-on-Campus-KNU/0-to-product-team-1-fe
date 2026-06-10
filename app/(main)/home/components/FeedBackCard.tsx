@@ -72,6 +72,10 @@ export function FeedBackCard({
           </span>
         </button>
       </div>
+
+      <p className="text-label-05 text-gray-400">
+        한 번만 선택 후 변경할 수 없습니다.
+      </p>
     </div>
   );
 }

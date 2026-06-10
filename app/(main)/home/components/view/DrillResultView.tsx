@@ -30,8 +30,8 @@ export function DrillResultView({
   const { setDrillCompleted, setHelpful } = feedbackData;
 
   useEffect(() => {
-    setDrillCompleted(drillData.drillCompleted);
-    setHelpful(drillData.helpful);
+    setDrillCompleted(drillData.drillCompleted ?? false);
+    setHelpful(drillData.helpful ?? null);
   }, [
     setDrillCompleted,
     setHelpful,
@@ -42,6 +42,7 @@ export function DrillResultView({
   return (
     <div className="flex w-full max-w-sm flex-col gap-10">
       <DrillCard
+        id={data.id}
         name={data.name}
         duration_min={data.duration_min}
         instruction={data.instruction}
@@ -67,10 +68,12 @@ export function DrillResultView({
           <StateCard variant="social" value={entryData.social} />
         </div>
       </div>
-      <FeedBackCard
-        feedbackData={feedbackData}
-        feedbackMutation={feedbackMutation}
-      />
+      {feedbackData.helpful === null && (
+        <FeedBackCard
+          feedbackData={feedbackData}
+          feedbackMutation={feedbackMutation}
+        />
+      )}
     </div>
   );
 }
