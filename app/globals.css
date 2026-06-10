@@ -76,12 +76,12 @@
   --color-black: #222222;
   --color-white: #ffffff;
 
-  --color-orange: #FFCD86;
-  --color-green: #B2E4D4;
-  --color-red: #FB9F93;
-  --color-sky: #AEDEF3;
-  --color-pink: #F9CFDB;
-  --color-indigo: #C3C4EE;
+  --color-orange: #ffcd86;
+  --color-green: #b2e4d4;
+  --color-red: #fb9f93;
+  --color-sky: #aedef3;
+  --color-pink: #f9cfdb;
+  --color-indigo: #c3c4ee;
 
   --color-background-light: #fefefe;
   --color-background-dark: var(--muted);
