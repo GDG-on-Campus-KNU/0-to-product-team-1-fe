@@ -39,6 +39,10 @@ export function DrillResultView({
     drillData.helpful,
   ]);
 
+  const { emotions, patterns } = drillData.labelResultJson;
+  const topEmotion = Object.entries(emotions).sort((a, b) => b[1] - a[1])[0][0];
+  const topPattern = Object.entries(patterns).sort((a, b) => b[1] - a[1])[0][0];
+
   return (
     <div className="flex w-full max-w-sm flex-col gap-10">
       <DrillCard
@@ -51,6 +55,10 @@ export function DrillResultView({
         feedbackData={feedbackData}
         feedbackMutation={feedbackMutation}
       />
+      <div className="flex w-full justify-between text-label-04 text-gray-500">
+        <span>{topPattern}</span>
+        <span>{topEmotion}</span>
+      </div>
       <div className="flex w-full flex-col gap-6">
         <h1 className="text-body-01 text-gray-700">
           Q. 오늘 가장 신경쓰였던 일이 무엇이었나요?
