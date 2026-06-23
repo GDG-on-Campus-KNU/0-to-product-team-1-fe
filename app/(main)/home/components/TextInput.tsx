@@ -14,9 +14,21 @@ interface TextInputProps {
   text: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
   maxLength?: number;
+  placeholder?: string;
+  buttonLabel?: string;
+  onSubmit?: () => void;
+  isSubmitting?: boolean;
 }
 
-export function TextInput({ text, setText, maxLength = 200 }: TextInputProps) {
+export function TextInput({
+  text,
+  setText,
+  maxLength = 200,
+  placeholder = "오늘의 상태를 간단히 기록해 보세요...",
+  buttonLabel = "기록하기",
+  onSubmit,
+  isSubmitting = false,
+}: TextInputProps) {
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = e.target.value;
     if (inputValue.length > maxLength) {
@@ -31,7 +43,7 @@ export function TextInput({ text, setText, maxLength = 200 }: TextInputProps) {
         <TextareaAutosize
           data-slot="input-group-control"
           className="flex field-sizing-content min-h-20 w-full resize-none bg-transparent px-4 py-3 text-body-04 text-gray-700 outline-none placeholder:text-gray-400"
-          placeholder="오늘의 상태를 간단히 기록해 보세요..."
+          placeholder={placeholder}
           maxLength={maxLength}
           value={text}
           onChange={handleChange}
@@ -45,10 +57,12 @@ export function TextInput({ text, setText, maxLength = 200 }: TextInputProps) {
           </span>
 
           <InputGroupButton
-            className="rounded-xl bg-gray-600 px-5 text-(length:--text-label-02) text-white transition-colors hover:bg-gray-700 hover:text-white"
+            className="rounded-xl bg-gray-600 px-5 text-(length:--text-label-02) text-white transition-colors hover:bg-gray-700 hover:text-white disabled:opacity-50"
             size="sm"
+            onClick={onSubmit}
+            disabled={isSubmitting}
           >
-            기록하기
+            {isSubmitting ? "저장 중.." : buttonLabel}
           </InputGroupButton>
         </InputGroupAddon>
       </InputGroup>
