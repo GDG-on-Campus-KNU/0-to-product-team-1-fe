@@ -118,12 +118,12 @@ export const DRILL_CATEGORY_CONFIG: Record<
   DrillCategory,
   Pick<DrillConfig, "colorVar" | "hex">
 > = {
-  cognitive_restructuring: { colorVar: "--color-orange", hex: "#FFCD86" },
-  behavioral_activation: { colorVar: "--color-green", hex: "#B2E4D4" },
-  habit_design: { colorVar: "--color-red", hex: "#FB9F93" },
-  grounding: { colorVar: "--color-sky", hex: "#AEDEF3" },
-  self_compassion: { colorVar: "--color-pink", hex: "#F9CFDB" },
-  sleep_circadian: { colorVar: "--color-indigo", hex: "#C3C4EE" },
+  cognitive_restructuring: { colorVar: "--color-orange", hex: "#FFDBA9" },
+  behavioral_activation: { colorVar: "--color-green", hex: "#CCF1E5" },
+  habit_design: { colorVar: "--color-red", hex: "#FFB6AC" },
+  grounding: { colorVar: "--color-sky", hex: "#CBEFFF" },
+  self_compassion: { colorVar: "--color-pink", hex: "#FFDBE6" },
+  sleep_circadian: { colorVar: "--color-indigo", hex: "#D4D5FB" },
 };
 
 interface DrillEntry {

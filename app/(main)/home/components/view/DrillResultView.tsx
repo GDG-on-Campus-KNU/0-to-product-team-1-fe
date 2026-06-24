@@ -2,8 +2,11 @@
 
 import { useEffect } from "react";
 
+import { ScanFace, ScanHeart } from "lucide-react";
+
 import { DrillCard } from "@/components/DrillCard";
 import { TextCard } from "@/components/TextCard";
+import { EMOTION_CONFIG, PATTERN_CONFIG } from "@/lib/constants/insight-config";
 
 import { EntryData } from "../../hooks/useEntryData";
 import { useFeedback } from "../../hooks/useFeedback";
@@ -17,12 +20,14 @@ interface DrillResultViewProps {
   data: CleanDrill;
   entryData: EntryData;
   drillData: DrillGetResponse;
+  readOnly?: boolean;
 }
 
 export function DrillResultView({
   data,
   entryData,
   drillData,
+  readOnly = false,
 }: DrillResultViewProps) {
   const feedbackData = useFeedbackData();
   const feedbackMutation = useFeedback({ entryId: drillData.entryId });
@@ -54,10 +59,34 @@ export function DrillResultView({
         evidence_span={data.evidence_span}
         feedbackData={feedbackData}
         feedbackMutation={feedbackMutation}
+        readOnly={readOnly}
       />
-      <div className="flex w-full justify-between text-label-04 text-gray-500">
-        <span>{topPattern}</span>
-        <span>{topEmotion}</span>
+      <div className="flex w-full flex-col gap-6">
+        <h2 className="text-body-01 text-gray-700">
+          오늘 나의 사고패턴과 감정이에요.
+        </h2>
+        <div className="flex w-full gap-5">
+          {(() => {
+            const PatternIcon = PATTERN_CONFIG[topPattern]?.icon ?? ScanFace;
+            return (
+              <div className="flex flex-1 flex-col items-center gap-2 rounded-3xl bg-blue-200 p-4">
+                <PatternIcon className="size-10 text-gray-500" />
+                <span className="text-label-04 text-gray-500">사고패턴</span>
+                <span className="text-body-02 text-gray-800">{topPattern}</span>
+              </div>
+            );
+          })()}
+          {(() => {
+            const EmotionIcon = EMOTION_CONFIG[topEmotion]?.icon ?? ScanHeart;
+            return (
+              <div className="flex flex-1 flex-col items-center gap-2 rounded-3xl bg-pink-200 p-4">
+                <EmotionIcon className="size-10 text-gray-500" />
+                <span className="text-label-04 text-gray-500">감정</span>
+                <span className="text-body-02 text-gray-800">{topEmotion}</span>
+              </div>
+            );
+          })()}
+        </div>
       </div>
       <div className="flex w-full flex-col gap-6">
         <h1 className="text-body-01 text-gray-700">
@@ -76,7 +105,7 @@ export function DrillResultView({
           <StateCard variant="social" value={entryData.social} />
         </div>
       </div>
-      {feedbackData.helpful === null && (
+      {!readOnly && feedbackData.helpful === null && (
         <FeedBackCard
           feedbackData={feedbackData}
           feedbackMutation={feedbackMutation}

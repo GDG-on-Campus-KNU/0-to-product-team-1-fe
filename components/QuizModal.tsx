@@ -51,13 +51,15 @@ export function QuizModal({
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="relative flex w-[90vw] max-w-sm flex-col rounded-3xl bg-white p-6 gap-6 shadow-xl">
-        <span className="text-label-04 text-gray-400">{period}</span>
+      <div className="relative flex w-[90vw] max-w-sm flex-col rounded-3xl bg-white p-6 pb-4 gap-6 shadow-xl">
+        <span className="text-label-01 text-center text-gray-700">
+          {period} 퀴즈
+        </span>
 
         {step === "quiz" && (
           <>
             <h2 className="text-body-01 text-gray-800">Q. {question}</h2>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 pb-4">
               {choices.map((choice) => (
                 <button
                   key={choice.value}
@@ -91,17 +93,18 @@ export function QuizModal({
         {step === "result" && result && (
           <div className="flex flex-col items-center gap-6 py-4">
             <span
-              className={`text-[72px] font-bold leading-none ${result.match ? "text-green-500" : "text-red-500"}`}
+              className={`text-[72px] font-bold leading-none ${result.match ? "text-green-500" : "text-red-500/60"}`}
             >
               {result.match ? "O" : "X"}
             </span>
-            <p className="text-body-01 text-gray-700 text-center">
-              이번주에 <strong>{result.correct}</strong>가{" "}
+            <p className="text-body-01 pb-4 text-gray-700 text-center">
+              이번주에는 &ldquo;<strong>{result.correct}</strong>&rdquo;이(가)
+              <br />
               <strong>{result.actual_ratio_percent}%</strong>만큼 나타났어요.
             </p>
             <button
               onClick={onClose}
-              className="w-full rounded-2xl bg-gray-800 py-4 text-body-02 text-white"
+              className="w-full rounded-2xl bg-gray-700 hover:bg-gray-800 py-4 text-body-02 text-white"
             >
               {result.match ? "확인" : "닫기"}
             </button>

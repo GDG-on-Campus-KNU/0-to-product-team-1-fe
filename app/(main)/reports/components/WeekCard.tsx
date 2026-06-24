@@ -36,7 +36,7 @@ export function WeekCard({
           </span>
         </div>
         {isRecent && (
-          <span className="rounded-full bg-gray-700 px-2.5 py-1 text-label-05 text-white">
+          <span className="rounded-full bg-pink-600 px-2.5 py-1 text-label-05 text-white">
             최근
           </span>
         )}
