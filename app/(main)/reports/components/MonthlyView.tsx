@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import { CalendarX } from "lucide-react";
+
 import { DrillResultView } from "@/app/(main)/home/components/view/DrillResultView";
 import { processResponseToCleanData } from "@/app/(main)/home/hooks/usePostDrill";
 import { Calendar, CalendarEvent } from "@/components/ui/calendar";
@@ -47,18 +49,21 @@ export function MonthlyView() {
       : null;
 
   return (
-    <div className="flex flex-col flex-1 gap-6 pt-5 w-full">
-      <Calendar
-        selected={pickedDate}
-        onSelect={setPickedDate}
-        defaultMonth={currentMonth}
-        onMonthChange={setCurrentMonth}
-        events={events}
-      />
+    <div className="flex flex-col flex-1 items-center gap-6 pt-5 w-full">
+      <div className="w-full max-w-sm">
+        <Calendar
+          selected={pickedDate}
+          onSelect={setPickedDate}
+          defaultMonth={currentMonth}
+          onMonthChange={setCurrentMonth}
+          events={events}
+        />
+      </div>
 
       {pickedDate &&
         (cleanDrill && dailyData ? (
           <DrillResultView
+            readOnly
             data={cleanDrill}
             entryData={{
               text: dailyData.text,
@@ -76,7 +81,10 @@ export function MonthlyView() {
           />
         ) : (
           !hasEvent && (
-            <p className="text-body-02 text-gray-400">드릴이 없습니다.</p>
+            <div className="flex w-full max-w-sm flex-col items-center gap-3 rounded-4xl border border-dashed border-gray-300 bg-gray-100/50 py-10 text-gray-400">
+              <CalendarX className="size-10 stroke-[1.5]" />
+              <p className="text-body-02">해당 날짜에 드릴이 없어요</p>
+            </div>
           )
         ))}
     </div>

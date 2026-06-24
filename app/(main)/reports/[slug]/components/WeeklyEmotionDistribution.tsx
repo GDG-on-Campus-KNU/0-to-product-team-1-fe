@@ -23,8 +23,8 @@ export default function WeeklyEmotionDistribution() {
     return;
   }
 
-  const { axes, dominant, entries_used } =
-    data.visualizationsJson.emotion_pentagon;
+  const { axes, dominant } = data.visualizationsJson.emotion_pentagon;
+  const emotionDescription = `${data.blocksJson.block2_emotion_summary.primary_emotion}: ${data.blocksJson.block2_emotion_summary.description}`;
 
   const axesWithPercent = axes.map((a) => ({
     ...a,
@@ -33,17 +33,25 @@ export default function WeeklyEmotionDistribution() {
 
   return (
     <div className="flex flex-col items-center justify-center w-full p-5">
-      <h1 className="text-head-02 text-gray-800 self-start m-2">
+      <h1 className="text-head-03 text-gray-800 self-start ml-2 mb-6">
         주간 감정 분포
       </h1>
 
-      <div className="flex w-full flex-col gap-4 rounded-3xl bg-stone-100 p-5">
-        <div className="flex items-baseline gap-2">
-          <span className="text-head-03 text-foreground">{dominant}</span>
-          <span className="text-label-04 text-gray-400">
-            {entries_used}개 기록 기준
-          </span>
-        </div>
+      <div className="flex w-full flex-col gap-4 rounded-3xl bg-background-dark p-5 shadow-sm">
+        <span className="text-body-01 text-foreground">
+          {dominant}
+          {(() => {
+            const val = axes.find((a) => a.label === dominant)?.value;
+            return val != null ? (
+              <span className="text-label-03 text-gray-400">
+                {" "}
+                ({(val * 100).toFixed(1)}%)
+              </span>
+            ) : (
+              ""
+            );
+          })()}
+        </span>
 
         <ResponsiveContainer width="100%" height={260}>
           <RadarChart
@@ -61,13 +69,17 @@ export default function WeeklyEmotionDistribution() {
             <PolarRadiusAxis domain={[0, 1]} tick={false} axisLine={false} />
             <Radar
               dataKey="value"
-              stroke="#bfc5bd"
-              fill="#bfc5bd"
+              stroke="#B5C0D0"
+              fill="#B5C0D0"
               fillOpacity={0.4}
               strokeWidth={2}
             />
           </RadarChart>
         </ResponsiveContainer>
+
+        <p className="text-center text-label-04 text-gray-500">
+          &ldquo;{emotionDescription}&rdquo;
+        </p>
       </div>
     </div>
   );

@@ -9,8 +9,10 @@ import { WeeklyView } from "./components/WeeklyView";
 export default function ReportList() {
   const [viewType, setVoewType] = useState<"week" | "month">("month");
   return (
-    <div className="flex flex-col flex-1 items-start w-full p-5">
-      <SegmentedControl value={viewType} onValueChange={setVoewType} />
+    <div className="flex flex-col flex-1 items-center w-full p-5">
+      <div className="w-full max-w-sm">
+        <SegmentedControl value={viewType} onValueChange={setVoewType} />
+      </div>
       {viewType === "week" && <WeeklyView />}
       {viewType === "month" && <MonthlyView />}
     </div>

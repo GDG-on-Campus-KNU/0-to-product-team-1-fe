@@ -19,28 +19,36 @@ export default function InsightOfWeek() {
 
   return (
     <div className="flex flex-col items-center justify-center w-full p-5">
-      <h1 className="text-head-02 text-gray-800 self-start m-2">
+      <h1 className="text-head-03 text-gray-800 self-start ml-2 mb-6">
         이번 주의 발견
       </h1>
 
-      <div className="flex w-full flex-col rounded-3xl bg-stone-100">
-        {discoveries.map(({ category, text, count, source }, index) => (
+      <div className="flex w-full flex-col rounded-3xl bg-background-dark shadow-sm">
+        {discoveries.map(({ category, text }, index) => (
           <div
             key={`${category}-${index}`}
             className={`flex flex-col gap-2 px-5 py-4 ${
-              index < discoveries.length - 1 ? "border-b border-gray-200" : ""
+              index < discoveries.length - 1
+                ? "border-b border-gray-200/40"
+                : ""
             }`}
           >
             <div className="flex items-center justify-between">
-              <span className="rounded-full bg-green-200 px-3 py-1 text-label-05 text-gray-600">
+              <span
+                className="rounded-full px-3 py-1 text-label-05 text-gray-600"
+                style={{
+                  backgroundColor:
+                    category === "cognitive"
+                      ? "var(--color-green-300)"
+                      : category === "context"
+                        ? "var(--color-beige-300)"
+                        : "var(--color-pink-300)",
+                }}
+              >
                 {category}
               </span>
-              {count != null && (
-                <span className="text-label-05 text-gray-400">{count}회</span>
-              )}
             </div>
             <p className="text-label-02 text-foreground">{text}</p>
-            <span className="text-label-05 text-gray-400">{source}</span>
           </div>
         ))}
       </div>

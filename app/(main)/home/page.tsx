@@ -51,6 +51,9 @@ export default function Home() {
     }
   }, [drillData, drillData?.hasDrill, entryData]);
 
+  if (drillData)
+    console.info("home drillData:", JSON.stringify(drillData, null, 2));
+
   if (isLoading) {
     return (
       <div className="flex flex-1 flex-col items-center justify-center gap-10 w-full p-5">
