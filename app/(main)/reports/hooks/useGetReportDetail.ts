@@ -6,6 +6,7 @@ import { axiosInstance } from "@/lib/axios";
 export type ReportDetail = {
   weekId: string;
   userId: number;
+  isChecked: boolean;
   blocksJson: {
     block3_weekly_tip: {
       tip: string;
@@ -18,6 +19,10 @@ export type ReportDetail = {
     block2_emotion_summary: {
       description: string;
       primary_emotion: string;
+    };
+    self_check_quiz: {
+      question: string;
+      options: { label: string; value: string }[];
     };
   };
   visualizationsJson: {
@@ -80,6 +85,7 @@ export type ReportDetail = {
     prevWeekSocialMode: unknown;
   };
   generatedAt: string;
+  userMemo: string | null;
 };
 
 export type ReportDetailGetResponse = ReportDetail;

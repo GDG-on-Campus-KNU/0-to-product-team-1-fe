@@ -17,9 +17,9 @@ export function WeeklyView() {
   const grouped = data ? groupByMonth(data) : [];
 
   return (
-    <div className="flex w-full flex-col gap-6 p-8">
+    <div className="flex w-full max-w-sm flex-col gap-6 pt-6">
       <div className="flex flex-col gap-1">
-        <span className="text-label-04 text-gray-400">주간 기록</span>
+        <span className="text-label-2 text-gray-400">주간 기록</span>
         <h1 className="text-head-03 text-foreground">
           마음의 발자취를
           <br />
@@ -34,23 +34,25 @@ export function WeeklyView() {
       )}
 
       {!isLoading && (
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-6">
           {grouped.map(([month, reports], monthIndex) => (
             <div key={month} className="flex flex-col">
-              <span className="text-body-01 text-gray-500 mb-2 px-1">
+              <span className="text-body-01 text-gray-700 mb-4 px-1">
                 {month}
               </span>
 
-              {reports.map((report, index) => {
-                return (
-                  <WeekCard
-                    key={report.weekId}
-                    report={report}
-                    month={month}
-                    isRecent={monthIndex === 0 && index === 0}
-                  />
-                );
-              })}
+              <div className="flex flex-col gap-4">
+                {reports.map((report, index) => {
+                  return (
+                    <WeekCard
+                      key={report.weekId}
+                      report={report}
+                      month={month}
+                      isRecent={monthIndex === 0 && index === 0}
+                    />
+                  );
+                })}
+              </div>
             </div>
           ))}
         </div>

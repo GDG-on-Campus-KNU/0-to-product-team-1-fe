@@ -22,6 +22,7 @@ type DrillCardProps = Omit<CleanDrill, "type"> & {
     },
     unknown
   >;
+  readOnly?: boolean;
 };
 
 export function DrillCard({
@@ -33,12 +34,46 @@ export function DrillCard({
   evidence_span,
   feedbackData,
   feedbackMutation,
+  readOnly = false,
 }: DrillCardProps) {
   const drillConfig = getDrillConfig(id);
   const Icon = drillConfig?.icon ?? BrainCircuit;
   return (
-    <div className="flex w-full max-w-sm flex-col gap-6 rounded-4xl bg-gray-200 p-6 shadow-sm">
-      <div className="flex items-start justify-between">
+    <div className="flex w-full max-w-sm flex-col gap-6 rounded-4xl bg-gray-100 p-6 shadow-sm">
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center justify-between">
+          <span className="text-label-01 text-gray-600">오늘의 마음 드릴</span>
+          <div className="flex shrink-0 items-center gap-2.5 rounded-full bg-white/50 px-3.5 py-2 shadow-sm">
+            {!readOnly && (
+              <Switch
+                checked={feedbackData.drillCompleted}
+                onCheckedChange={() => {
+                  feedbackMutation.mutate(
+                    {
+                      body: {
+                        helpful: feedbackData.helpful,
+                        drill_completed: !feedbackData.drillCompleted,
+                      },
+                    },
+                    {
+                      onSuccess: () => {
+                        feedbackData.setDrillCompleted((prev) => !prev);
+                      },
+                    },
+                  );
+                }}
+                className="data-checked:bg-gray-600! data-unchecked:bg-gray-300! **:data-[slot=switch-thumb]:border-0 **:data-[slot=switch-thumb]:mb-px **:data-[slot=switch-thumb]:bg-white!"
+              />
+            )}
+            <span
+              className={`text-label-01 transition-colors ${
+                feedbackData.drillCompleted ? "text-gray-600" : "text-gray-500"
+              }`}
+            >
+              {feedbackData.drillCompleted ? "완료됨" : "미완료"}
+            </span>
+          </div>
+        </div>
         <div className="flex items-center gap-3">
           <div
             className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full"
@@ -46,41 +81,7 @@ export function DrillCard({
           >
             <Icon className="size-6 text-gray-700" />
           </div>
-          <div className="flex flex-col">
-            <span className="text-label-01 text-gray-600">
-              오늘의 마음 드릴
-            </span>
-            <h2 className="text-head-03 text-black break-keep">{name}</h2>
-          </div>
-        </div>
-
-        <div className="flex shrink-0 items-center gap-2.5 rounded-full bg-white/50 px-3.5 py-2 shadow-sm">
-          <Switch
-            checked={feedbackData.drillCompleted}
-            onCheckedChange={() => {
-              feedbackMutation.mutate(
-                {
-                  body: {
-                    helpful: feedbackData.helpful,
-                    drill_completed: !feedbackData.drillCompleted,
-                  },
-                },
-                {
-                  onSuccess: () => {
-                    feedbackData.setDrillCompleted((prev) => !prev);
-                  },
-                },
-              );
-            }}
-            className="data-checked:bg-gray-600! data-unchecked:bg-gray-300! **:data-[slot=switch-thumb]:border-0 **:data-[slot=switch-thumb]:mb-px **:data-[slot=switch-thumb]:bg-white!"
-          />
-          <span
-            className={`text-label-01 transition-colors ${
-              feedbackData.drillCompleted ? "text-gray-600" : "text-gray-500"
-            }`}
-          >
-            {feedbackData.drillCompleted ? "완료됨" : "미완료"}
-          </span>
+          <h2 className="text-head-03 text-black">{name}</h2>
         </div>
       </div>
 

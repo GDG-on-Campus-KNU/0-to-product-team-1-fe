@@ -1,7 +1,12 @@
 "use client";
 
+import { useState } from "react";
+
 import { useParams } from "next/navigation";
 import { BeatLoader } from "react-spinners";
+
+import { isoWeekToKorean } from "@/app/(main)/reports/utils/isoWeekToKorean";
+import { QuizModal } from "@/components/QuizModal";
 
 import { useGetReportDetail } from "../hooks/useGetReportDetail";
 import ConditionFlow from "./components/ConditionFlow";
@@ -15,6 +20,10 @@ import WeeklyEmotionDistribution from "./components/WeeklyEmotionDistribution";
 export default function ReportDetail() {
   const { slug } = useParams<{ slug: string }>();
   const { data, isLoading, isError } = useGetReportDetail({ weekId: slug });
+  const [quizClosed, setQuizClosed] = useState(false);
+  const [quizEligible] = useState(() =>
+    data != null ? !data.isChecked : false,
+  );
 
   if (isLoading) {
     return (
@@ -30,8 +39,16 @@ export default function ReportDetail() {
     );
   }
 
+  const showQuiz = quizEligible && !quizClosed;
+
   return (
     <div className="flex flex-1 flex-col items-center justify-center w-full p-5">
+      <div className="flex flex-col items-center gap-1 w-full mb-6">
+        <span className="text-label-02 text-gray-400">주간 리포트</span>
+        <h1 className="text-head-02 text-foreground">
+          {isoWeekToKorean(data.weekId)}
+        </h1>
+      </div>
       <DailyDrillRecord />
       <WeeklyEmotionDistribution />
       <LifeSummary />
@@ -39,6 +56,16 @@ export default function ReportDetail() {
       <PatternDifference />
       <InsightOfWeek />
       <MyInsight />
+
+      {showQuiz && (
+        <QuizModal
+          weekId={data.weekId}
+          period={isoWeekToKorean(data.weekId)}
+          question={data.blocksJson.self_check_quiz.question}
+          choices={data.blocksJson.self_check_quiz.options}
+          onClose={() => setQuizClosed(true)}
+        />
+      )}
     </div>
   );
 }

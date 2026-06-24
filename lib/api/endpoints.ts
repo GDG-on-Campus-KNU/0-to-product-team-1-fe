@@ -38,5 +38,6 @@ export const API = {
   REPORT: {
     WEEKLY_LIST_GET: "/reports/weekly",
     WEEKLY_DETAIL_GET: (weekId: string) => `reports/weekly/${weekId}`,
+    WEEKLY_MEMO_PATCH: (weekId: string) => `reports/weekly/${weekId}/memo`,
   },
 };

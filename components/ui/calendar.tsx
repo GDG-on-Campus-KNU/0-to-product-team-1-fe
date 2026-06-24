@@ -5,7 +5,6 @@ import * as React from "react";
 import { BrainCircuit, ChevronLeft, ChevronRight } from "lucide-react";
 import { DayPicker, DayButton } from "react-day-picker";
 
-import { Button } from "@/components/ui/button";
 import { getDrillConfig } from "@/lib/constants/drill-config";
 import { cn } from "@/lib/utils";
 
@@ -85,7 +84,6 @@ interface CalendarDayButtonProps extends React.ComponentProps<
 function CalendarDayButton({
   day,
   modifiers,
-  className,
   events,
   ...props
 }: CalendarDayButtonProps) {
@@ -99,36 +97,50 @@ function CalendarDayButton({
     const bgColor = drillConfig?.hex ?? "#F9CFDB";
 
     return (
-      <div className="flex flex-col items-center gap-1">
-        <Button
-          variant="ghost"
-          size="icon"
+      <button
+        className="flex size-10 items-center justify-center bg-transparent p-0 border-0 hover:opacity-80"
+        {...props}
+        style={{}}
+      >
+        <div
           className={cn(
-            "size-10 rounded-full p-0 hover:opacity-80",
-            !event.isCompleted && "opacity-40",
-            modifiers.selected && "ring-2 ring-green-500",
+            "flex size-8 items-center justify-center rounded-full",
+            modifiers.selected && "opacity-60",
           )}
-          style={{ backgroundColor: bgColor }}
-          {...props}
+          style={
+            event.isCompleted
+              ? { backgroundColor: bgColor }
+              : {
+                  backgroundColor: "transparent",
+                  border: `2.5px solid ${bgColor}`,
+                }
+          }
         >
-          <Icon className="size-4 text-gray-700" />
-        </Button>
-      </div>
+          <Icon
+            className={cn(
+              "size-4 text-gray-700",
+              !event.isCompleted && "opacity-70",
+            )}
+          />
+        </div>
+      </button>
     );
   }
 
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      className={cn(
-        "size-10 rounded-full p-0 text-label-02 hover:bg-transparent",
-        modifiers.selected && "border-2 border-green-700 bg-transparent",
-        className,
-      )}
+    <button
+      className="flex size-10 items-center justify-center bg-transparent p-0 border-0"
       {...props}
+      style={{}}
     >
-      {day.date.getDate()}
-    </Button>
+      <div
+        className={cn(
+          "flex size-8 items-center justify-center rounded-full text-label-02 font-semibold",
+          modifiers.selected ? "bg-gray-200" : "hover:bg-gray-100",
+        )}
+      >
+        {day.date.getDate()}
+      </div>
+    </button>
   );
 }

@@ -1,15 +1,16 @@
 "use client";
 
-import {
-  Moon,
-  Dumbbell,
-  Smile,
-  Users,
-  TrendingUp,
-  TrendingDown,
-  Minus,
-} from "lucide-react";
+import { TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { useParams } from "next/navigation";
+
+import { STATE_CONFIG } from "@/lib/constants/state-config";
+
+const ICON_COLOR = {
+  sleep: "text-green-600",
+  exercise: "text-beige-600",
+  condition: "text-blue-600",
+  social: "text-pink-600",
+} as const;
 
 import { useGetReportDetail } from "../../hooks/useGetReportDetail";
 
@@ -64,22 +65,36 @@ export default function LifeSummary() {
     prevWeekSocialMode,
   } = data.lifestyleSummary;
 
-  const description = `${data.blocksJson.block3_weekly_tip.tip} (${data.blocksJson.block3_weekly_tip.source})`;
+  const SOCIAL_MODE_LABELS: Record<string, string> = {
+    alone: "혼자",
+    with_friends: "친구와",
+    with_family: "가족과",
+    with_partner: "파트너와",
+    with_coworkers: "동료와",
+  };
+  const toSocialLabel = (v: unknown) => {
+    if (v == null) return null;
+    const str = String(v);
+    return SOCIAL_MODE_LABELS[str] ?? str;
+  };
 
   return (
     <div className="flex flex-col items-center justify-center w-full p-5">
-      <h1 className="text-head-02 text-gray-800 self-start m-2">
+      <h1 className="text-head-03 text-gray-800 self-start ml-2 mb-6">
         생활 지표 요약
       </h1>
 
       <div className="grid grid-cols-2 gap-3 w-full">
         {/* 수면 */}
-        <div className="flex flex-col gap-2 rounded-2xl bg-stone-100 p-4">
+        <div className="flex flex-col gap-2 rounded-2xl bg-background-dark p-4 shadow-sm">
           <div className="flex items-center gap-1.5 text-gray-400">
-            <Moon className="size-4" />
-            <span className="text-label-04">수면</span>
+            {(() => {
+              const Icon = STATE_CONFIG.sleep.icon;
+              return <Icon className={`size-4 ${ICON_COLOR.sleep}`} />;
+            })()}
+            <span className="text-label-04">{STATE_CONFIG.sleep.label}</span>
           </div>
-          <span className="text-head-02 text-foreground">
+          <span className="text-head-03 text-foreground">
             {parseFloat(avgSleepHours.toFixed(1))}시간
           </span>
           <DiffText
@@ -90,12 +105,15 @@ export default function LifeSummary() {
         </div>
 
         {/* 운동 */}
-        <div className="flex flex-col gap-2 rounded-2xl bg-stone-100 p-4">
+        <div className="flex flex-col gap-2 rounded-2xl bg-background-dark p-4 shadow-sm">
           <div className="flex items-center gap-1.5 text-gray-400">
-            <Dumbbell className="size-4" />
-            <span className="text-label-04">운동</span>
+            {(() => {
+              const Icon = STATE_CONFIG.exercise.icon;
+              return <Icon className={`size-4 ${ICON_COLOR.exercise}`} />;
+            })()}
+            <span className="text-label-04">{STATE_CONFIG.exercise.label}</span>
           </div>
-          <span className="text-head-02 text-foreground">
+          <span className="text-head-03 text-foreground">
             {parseFloat(avgExerciseMinutes.toFixed(1))}분
           </span>
           <DiffText
@@ -106,24 +124,38 @@ export default function LifeSummary() {
         </div>
 
         {/* 컨디션 */}
-        <div className="flex flex-col gap-2 rounded-2xl bg-stone-100 p-4">
+        <div className="flex flex-col gap-2 rounded-2xl bg-background-dark p-4 shadow-sm">
           <div className="flex items-center gap-1.5 text-gray-400">
-            <Smile className="size-4" />
-            <span className="text-label-04">컨디션</span>
+            {(() => {
+              const Icon = STATE_CONFIG.condition.icon;
+              return <Icon className={`size-4 ${ICON_COLOR.condition}`} />;
+            })()}
+            <span className="text-label-04">
+              {STATE_CONFIG.condition.label}
+            </span>
           </div>
-          <span className="text-head-02 text-foreground">
+          <span className="text-head-03 text-foreground">
             {parseFloat(avgCondition.toFixed(1))}
           </span>
-          <span className="text-label-05 text-gray-400">5점 만점 기준</span>
+          <DiffText
+            current={avgCondition}
+            prev={data.lifestyleSummary.prevWeekCondition}
+            unit=""
+          />
         </div>
 
         {/* 사교 활동 */}
-        <div className="flex flex-col gap-2 rounded-2xl bg-stone-100 p-4">
+        <div className="flex flex-col gap-2 rounded-2xl bg-background-dark p-4 shadow-sm">
           <div className="flex items-center gap-1.5 text-gray-400">
-            <Users className="size-4" />
-            <span className="text-label-04">사교 활동</span>
+            {(() => {
+              const Icon = STATE_CONFIG.social.icon;
+              return <Icon className={`size-4 ${ICON_COLOR.social}`} />;
+            })()}
+            <span className="text-label-04">{STATE_CONFIG.social.label}</span>
           </div>
-          <span className="text-head-02 text-foreground">{socialMode}</span>
+          <span className="text-head-03 text-foreground">
+            {toSocialLabel(socialMode)}
+          </span>
           {prevWeekSocialMode == null ? (
             <span className="text-label-05 text-gray-400">지난 주: 없음</span>
           ) : socialMode === prevWeekSocialMode ? (
@@ -133,16 +165,10 @@ export default function LifeSummary() {
             </span>
           ) : (
             <span className="text-label-05 text-gray-400">
-              지난 주: {String(prevWeekSocialMode)}
+              지난 주: {toSocialLabel(prevWeekSocialMode)}
             </span>
           )}
         </div>
-      </div>
-
-      <div className="flex w-full flex-col gap-4 rounded-3xl bg-stone-100 p-4 pb-5">
-        <p className="text-center text-label-04 text-gray-500">
-          &ldquo;{description}&rdquo;
-        </p>
       </div>
     </div>
   );
