@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import { useParams } from "next/navigation";
 import { BeatLoader } from "react-spinners";
@@ -21,9 +21,15 @@ export default function ReportDetail() {
   const { slug } = useParams<{ slug: string }>();
   const { data, isLoading, isError } = useGetReportDetail({ weekId: slug });
   const [quizClosed, setQuizClosed] = useState(false);
-  const [quizEligible] = useState(() =>
-    data != null ? !data.isChecked : false,
-  );
+  const [quizEligible, setQuizEligible] = useState(false);
+  const hasSetQuiz = useRef(false);
+
+  useEffect(() => {
+    if (data != null && !hasSetQuiz.current) {
+      hasSetQuiz.current = true;
+      setQuizEligible(!data.isChecked);
+    }
+  }, [data]);
 
   if (isLoading) {
     return (
