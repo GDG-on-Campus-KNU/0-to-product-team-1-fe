@@ -69,7 +69,7 @@ export default function DailyDrillRecord() {
   const description = `추천 드릴 ${totalDrills}개 중 ${completedDrills}개를 실천했어요.`;
 
   return (
-    <div className="flex flex-col items-center justify-center w-full p-5">
+    <div className="flex flex-col items-center justify-center w-full py-5">
       <h1 className="text-head-03 text-gray-800 self-start ml-2 mb-6">
         일일 드릴 기록
       </h1>

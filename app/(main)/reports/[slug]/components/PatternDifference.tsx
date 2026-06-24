@@ -18,12 +18,12 @@ export default function PatternDifference() {
   const { pattern_diff } = data.visualizationsJson;
 
   return (
-    <div className="flex flex-col items-center justify-center w-full p-5">
+    <div className="flex flex-col items-center justify-center w-full py-5">
       <h1 className="text-head-03 text-gray-800 self-start ml-2 mb-6">
         패턴 변화
       </h1>
 
-      <div className="flex w-full flex-col rounded-3xl bg-background-dark shadow-sm">
+      <div className="flex w-full flex-col rounded-3xl bg-background-dark shadow-sm px-2">
         {pattern_diff.length === 0 ? (
           <p className="py-8 text-center text-label-02 text-gray-400">
             지난주와 비교했을 때 뚜렷한 패턴 변화가 없어요.
