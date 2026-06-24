@@ -389,7 +389,7 @@ step-back/
   </tr>
   <tr align="center">
     <td>Product · ML</td>
-    <td>UI/UX & Frontend</td>
+    <td>Design & Frontend</td>
     <td>Frontend</td>
     <td>Backend</td>
     <td>Backend</td>
