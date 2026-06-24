@@ -26,13 +26,13 @@ function DiffText({
   const diff = parseFloat((current - prev).toFixed(1));
   if (diff === 0)
     return (
-      <span className="flex items-center gap-1 text-label-05 text-gray-400">
+      <span className="flex items-center gap-1 text-label-05 text-gray-400 whitespace-nowrap">
         <Minus className="size-3" />
         지난 주와 동일함
       </span>
     );
   return (
-    <span className="flex items-center gap-1 text-label-05 text-gray-400">
+    <span className="flex items-center gap-1 text-label-05 text-gray-400 whitespace-nowrap">
       {diff > 0 ? (
         <TrendingUp className="size-3" />
       ) : (
@@ -79,7 +79,7 @@ export default function LifeSummary() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full p-5">
+    <div className="flex flex-col items-center justify-center w-full py-5">
       <h1 className="text-head-03 text-gray-800 self-start ml-2 mb-6">
         생활 지표 요약
       </h1>
@@ -159,12 +159,12 @@ export default function LifeSummary() {
           {prevWeekSocialMode == null ? (
             <span className="text-label-05 text-gray-400">지난 주: 없음</span>
           ) : socialMode === prevWeekSocialMode ? (
-            <span className="flex items-center gap-1 text-label-05 text-gray-400">
+            <span className="flex items-center gap-1 text-label-05 text-gray-400 whitespace-nowrap">
               <Minus className="size-3" />
               지난 주와 동일함
             </span>
           ) : (
-            <span className="text-label-05 text-gray-400">
+            <span className="text-label-05 text-gray-400 whitespace-nowrap">
               지난 주: {toSocialLabel(prevWeekSocialMode)}
             </span>
           )}

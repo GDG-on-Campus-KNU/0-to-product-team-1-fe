@@ -62,7 +62,7 @@ export default function Landing() {
           }}
         >
           <LogIn size={14} />
-          시작하기
+          로그인하기
         </Button>
         <Button
           variant="register"

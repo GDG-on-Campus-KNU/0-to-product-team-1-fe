@@ -32,7 +32,7 @@ export default function WeeklyEmotionDistribution() {
   }));
 
   return (
-    <div className="flex flex-col items-center justify-center w-full p-5">
+    <div className="flex flex-col items-center justify-center w-full py-5">
       <h1 className="text-head-03 text-gray-800 self-start ml-2 mb-6">
         주간 감정 분포
       </h1>

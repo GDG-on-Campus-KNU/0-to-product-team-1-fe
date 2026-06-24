@@ -46,7 +46,7 @@ export default function MyInsight() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full p-5">
+    <div className="flex flex-col items-center justify-center w-full py-5">
       <h1 className="text-head-03 text-gray-800 self-start ml-2 mb-6">
         나의 발견
       </h1>
